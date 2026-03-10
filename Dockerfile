@@ -23,7 +23,7 @@ COPY --from=builder /app/target/release/netflix_backend /usr/local/bin/app
 
 # --- NEW: Copy the video file correctly ---
 # We copy from "assets/video.mp4" (local) to "." (root of container)
-COPY assets ./assets
+# COPY assets ./assets
 
 # Expose port 8080
 ENV PORT=8080
