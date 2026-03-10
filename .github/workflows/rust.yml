@@ -2,21 +2,34 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Run tests
+        run: cargo test --verbose
+
+      - name: Start server
+        run: |
+          cargo run &
+          sleep 5
+
+      - name: Test API endpoints
+        run: |
+          curl http://localhost:8080/api/trending
+          curl "http://localhost:8080/api/search?query=matrix"
+          curl http://localhost:8080/api/movie/603/videos
+          curl -I http://localhost:8080/stream/video.mp4
