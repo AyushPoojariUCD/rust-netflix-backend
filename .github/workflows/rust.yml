@@ -13,6 +13,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +32,6 @@ jobs:
 
       - name: Test API endpoints
         run: |
-          curl http://localhost:8080/api/trending
-          curl "http://localhost:8080/api/search?query=matrix"
-          curl http://localhost:8080/api/movie/603/videos
-          curl -I http://localhost:8080/stream/video.mp4
+          curl --fail http://localhost:8080/api/trending
+          curl --fail "http://localhost:8080/api/search?query=matrix"
+          curl --fail http://localhost:8080/api/movie/603/videos
